@@ -1020,6 +1020,160 @@
       filter: brightness(0.12);
     }
 
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+      z-index: 101;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #e8ecf2;
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ===== MOBILE MENU ===== */
+    .mobile-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(6,8,10,0.98);
+      backdrop-filter: blur(20px);
+      z-index: 98;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 100px 40px 40px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .mobile-nav.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .mobile-nav a {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #6a7485;
+      letter-spacing: 0.3px;
+      padding: 11px 20px;
+      transition: color 0.2s;
+      text-align: center;
+    }
+    .mobile-nav a:hover, .mobile-nav a:active { color: #fff; }
+    .mobile-nav .nav-cta-mobile {
+      margin-top: 20px;
+      padding: 14px 40px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .mobile-nav .nav-cta-mobile:hover { background: #a32420; color: #fff; }
+
+    /* ===== PRESENCIA GLOBAL ===== */
+    .presencia-band {
+      margin-top: 48px;
+      padding: 28px 32px;
+      background: var(--dark3);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .presencia-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .presencia-countries {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .presencia-country {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(192,57,43,0.07);
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: 100px;
+      font-size: 0.83rem;
+      color: #c0cad8;
+      font-weight: 500;
+    }
+    .presencia-country svg { width: 13px; height: 13px; color: var(--accent); flex-shrink: 0; }
+
+    /* ===== SUMATE SECTION ===== */
+    #sumate { background: var(--dark2); }
+    .sumate-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 60px;
+    }
+    .sumate-info h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+      line-height: 1.35;
+    }
+    .sumate-info > p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .sumate-benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .sumate-benefit-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(192,57,43,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+    .sumate-benefit-icon svg { width: 16px; height: 16px; }
+    .sumate-benefit-text .blabel { font-size: 0.84rem; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .sumate-benefit-text .bdesc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+    .sumate-form-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 24px;
+      letter-spacing: -0.3px;
+    }
+    @media (max-width: 900px) {
+      .sumate-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .nosotros-grid, .vision-grid, .contact-grid, .mv-grid { grid-template-columns: 1fr; }
@@ -1031,6 +1185,7 @@
     @media (max-width: 768px) {
       nav { padding: 18px 24px; }
       .nav-links { display: none; }
+      .hamburger { display: flex; }
       section { padding: 70px 24px; }
       .stats-strip { padding: 48px 24px; }
       .footer-top { grid-template-columns: 1fr 1fr; }
@@ -1053,16 +1208,31 @@
       <li><a href="#industrias">Industrias</a></li>
       <li><a href="#vision">Vision</a></li>
       <li><a href="#porque">Por que NEXVOID</a></li>
+      <li><a href="#sumate">Sumate al equipo</a></li>
       <li><a href="#contacto" class="nav-cta">Contactenos</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="#nosotros" class="mobile-link">Nosotros</a>
+    <a href="#servicios" class="mobile-link">Servicios</a>
+    <a href="#industrias" class="mobile-link">Industrias</a>
+    <a href="#vision" class="mobile-link">Vision</a>
+    <a href="#porque" class="mobile-link">Por que NEXVOID</a>
+    <a href="#sumate" class="mobile-link">Sumate al equipo</a>
+    <a href="#contacto" class="nav-cta-mobile mobile-link">Contactenos</a>
+  </div>
 
   <!-- HERO -->
   <section id="inicio">
     <div class="hero-img" id="heroImg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow reveal">Desde 2017 &middot; BPO &amp; Tecnologia</div>
+      <div class="hero-eyebrow reveal">Desde 2004 &middot; BPO &amp; Tecnologia</div>
       <h1 class="hero-title reveal reveal-delay-1">
         Capital humano,<br />tecnologia e <em>Inteligencia<br />Artificial</em> integrados.
       </h1>
@@ -1081,7 +1251,7 @@
   <div class="stats-strip">
     <div class="stats-grid">
       <div class="reveal">
-        <div class="stat-num" data-target="8">0<span>+</span></div>
+        <div class="stat-num" data-target="21">0<span>+</span></div>
         <div class="stat-label">Años de trayectoria</div>
       </div>
       <div class="reveal reveal-delay-1">
@@ -1109,11 +1279,14 @@
       <div class="nosotros-grid">
         <div class="reveal-left">
           <p class="section-eyebrow">Quienes somos</p>
-          <h2 class="section-title">Construidos para transformar operaciones a escala.</h2>
+          <h2 class="section-title">Dos decadas construyendo soluciones para las operaciones mas exigentes.</h2>
           <p class="section-desc">
-            Somos una empresa de servicios tecnologicos y BPO que integra talento humano de
-            alto rendimiento con tecnologia de vanguardia para generar resultados medibles
-            y sostenibles en cada organizacion que acompañamos.
+            Fundada en 2004, NEXVOID nacio brindando soluciones de contact center comercial
+            para empresas de software. Con el paso de los anos, nuestra vocacion de servicio
+            y orientacion hacia la satisfaccion del cliente nos impulsaron a ampliar y
+            profundizar nuestra oferta. Hoy integramos talento humano de alto rendimiento
+            con tecnologia de vanguardia para generar resultados medibles y sostenibles en
+            cada organizacion que acompañamos.
           </p>
           <div class="pillars">
             <div class="pillar">
@@ -1138,6 +1311,34 @@
               </div>
             </div>
           </div>
+
+          <!-- PRESENCIA GLOBAL -->
+          <div class="presencia-band reveal">
+            <div class="presencia-label">Presencia internacional</div>
+            <div class="presencia-countries">
+              <div class="presencia-country">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                Espana
+              </div>
+              <div class="presencia-country">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                Francia
+              </div>
+              <div class="presencia-country">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                Ecuador
+              </div>
+              <div class="presencia-country">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                Mexico
+              </div>
+              <div class="presencia-country">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                Peru
+              </div>
+            </div>
+          </div>
+
         </div>
         <div class="reveal-right">
           <div class="nosotros-img-wrap">
@@ -1497,10 +1698,10 @@
         <div class="porque-card reveal reveal-delay-2">
           <div class="porque-num">06</div>
           <div class="porque-body">
-            <h3 class="porque-title">Trayectoria comprobada desde 2017</h3>
+            <h3 class="porque-title">Trayectoria comprobada desde 2004</h3>
             <p class="porque-text">
-              Ocho años de operacion continua, con crecimiento sostenido y clientes que
-              nos eligen año tras año. Nuestra trayectoria respalda cada propuesta
+              Mas de dos decadas de operacion continua, con crecimiento sostenido y clientes
+              que nos eligen año tras año. Nuestra trayectoria respalda cada propuesta
               y elimina la incertidumbre del riesgo operativo.
             </p>
           </div>
@@ -1600,6 +1801,112 @@
     </div>
   </section>
 
+  <!-- SUMATE A NUESTRO EQUIPO -->
+  <section id="sumate">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow">Recursos humanos</p>
+        <h2 class="section-title">Sumate a nuestro equipo.</h2>
+        <p class="section-desc">
+          Buscamos profesionales comprometidos con la excelencia operativa, la innovacion
+          y el trabajo en equipo. Si compartes nuestra vision y quieres crecer en un
+          entorno dinamico con proyeccion internacional, queremos conocerte.
+        </p>
+      </div>
+      <div class="sumate-grid">
+
+        <!-- Info lateral -->
+        <div class="sumate-info reveal-left">
+          <h3>Un lugar donde el talento impulsa el crecimiento</h3>
+          <p>
+            En NEXVOID trabajamos con equipos multidisciplinarios en un entorno que
+            combina tecnologia de vanguardia, metodologias agiles y un fuerte compromiso
+            con el desarrollo profesional de cada persona. Operamos en múltiples paises
+            y ofrecemos proyeccion real de carrera.
+          </p>
+
+          <div class="sumate-benefit">
+            <div class="sumate-benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <div class="sumate-benefit-text">
+              <div class="blabel">Equipo con proyeccion internacional</div>
+              <div class="bdesc">Colaboramos con clientes y equipos en Espana, Francia, Ecuador, Mexico y Peru.</div>
+            </div>
+          </div>
+
+          <div class="sumate-benefit">
+            <div class="sumate-benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div class="sumate-benefit-text">
+              <div class="blabel">Entorno tecnologico avanzado</div>
+              <div class="bdesc">Trabajamos con herramientas de ultima generacion en IA, automatizacion y desarrollo de software.</div>
+            </div>
+          </div>
+
+          <div class="sumate-benefit">
+            <div class="sumate-benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+              </svg>
+            </div>
+            <div class="sumate-benefit-text">
+              <div class="blabel">Desarrollo profesional continuo</div>
+              <div class="bdesc">Programas de formacion, mentoria y planes de carrera estructurados para cada perfil.</div>
+            </div>
+          </div>
+
+          <div class="sumate-benefit">
+            <div class="sumate-benefit-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>
+              </svg>
+            </div>
+            <div class="sumate-benefit-text">
+              <div class="blabel">Modalidad flexible</div>
+              <div class="bdesc">Posiciones presenciales, hibridas y remotas segun el rol y la ubicacion del candidato.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="reveal-right">
+          <div class="sumate-form-title">Envie su postulacion</div>
+          <form id="form-sumate">
+            <div class="form-row">
+              <input type="text" placeholder="Nombre completo" required />
+              <input type="email" placeholder="Correo electronico" required />
+            </div>
+            <div class="form-row">
+              <input type="tel" placeholder="Telefono de contacto" />
+              <select>
+                <option value="" disabled selected>Area de interes</option>
+                <option>Operaciones y BPO</option>
+                <option>Atencion al Cliente / Contact Center</option>
+                <option>Soporte Tecnico</option>
+                <option>Desarrollo de Software</option>
+                <option>Inteligencia Artificial y Datos</option>
+                <option>Consultoria IT</option>
+                <option>Administracion y Back Office</option>
+                <option>Otra area</option>
+              </select>
+            </div>
+            <input type="url" placeholder="Enlace a CV, LinkedIn o portfolio (opcional)" />
+            <textarea placeholder="Cuéntenos sobre su experiencia y motivacion para unirse a NEXVOID" style="min-height:140px"></textarea>
+            <button type="submit" class="form-submit">Enviar postulacion</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <div class="cta-band">
     <h2 class="reveal">Impulse el crecimiento de su organizacion con nosotros.</h2>
@@ -1685,7 +1992,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <span class="nav-logo">NEX<span>VOID</span></span>
-          <p>BPO, tecnologia e inteligencia artificial al servicio del crecimiento empresarial. Desde 2017 transformando organizaciones en Latinoamerica.</p>
+          <p>BPO, tecnologia e inteligencia artificial al servicio del crecimiento empresarial. Desde 2004 transformando organizaciones en distintos paises del mundo.</p>
         </div>
         <div class="footer-col">
           <h4>Servicios</h4>
@@ -1704,6 +2011,7 @@
             <li><a href="#vision">Vision</a></li>
             <li><a href="#valores">Valores</a></li>
             <li><a href="#mision">Mision y Vision</a></li>
+            <li><a href="#sumate">Sumate al equipo</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>
         </div>
@@ -1717,8 +2025,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 NEXVOID. Todos los derechos reservados.</p>
-        <p>Diseño y desarrollo: NEXVOID</p>
+        <p>&copy; 2023 NEXVOID. Todos los derechos reservados.</p>
+        <p>Diseño y desarrollo: NEXVOID &mdash; Sitio desarrollado en 2023</p>
       </div>
     </div>
   </footer>
@@ -1728,6 +2036,33 @@
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ===== HAMBURGER MENU =====
+    const hamburger  = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+
+    function toggleMenu(open) {
+      hamburger.classList.toggle('open', open);
+      mobileNav.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      mobileNav.setAttribute('aria-hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.contains('open');
+      toggleMenu(!isOpen);
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // Close mobile menu on ESC
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && hamburger.classList.contains('open')) toggleMenu(false);
     });
 
     // ===== HERO IMAGE LOAD =====
