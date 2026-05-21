@@ -681,6 +681,32 @@
     }
     .footer-bottom p { color: #2e3545; font-size: 0.78rem; }
 
+    /* ===== GALERIA ===== */
+    .img-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      background: var(--dark);
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16/10;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease, filter 0.4s ease;
+      filter: brightness(0.75);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(1);
+    }
+    @media (max-width: 768px) {
+      .img-gallery { grid-template-columns: 1fr; }
+    }
+
     /* ===== POR QUE NEXVOID ===== */
     #porque { background: var(--dark); }
     .porque-grid {
@@ -754,7 +780,6 @@
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#vision">Vision</a></li>
       <li><a href="#porque">Por que NEXVOID</a></li>
-      <li><a href="#contacto">Contacto</a></li>
       <li><a href="#contacto" class="nav-cta">Contactenos</a></li>
     </ul>
   </nav>
@@ -849,6 +874,19 @@
       </div>
     </div>
   </section>
+
+  <!-- GALERIA -->
+  <div class="img-gallery">
+    <div class="gallery-item reveal-left">
+      <img src="images/ti.png" alt="Soluciones tecnologicas" loading="lazy" />
+    </div>
+    <div class="gallery-item reveal">
+      <img src="images/mejor.png" alt="Equipo de trabajo" loading="lazy" />
+    </div>
+    <div class="gallery-item reveal-right">
+      <img src="images/1.png" alt="Operaciones empresariales" loading="lazy" />
+    </div>
+  </div>
 
   <!-- SERVICIOS (TABS) -->
   <section id="servicios">
