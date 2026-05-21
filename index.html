@@ -5,19 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TechCorp — BPO &amp; Soluciones Tecnologicas</title>
   <style>
-    /* ===== RESET & BASE ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #06080f;
+      background: #06080a;
       color: #e8ecf2;
       line-height: 1.6;
       overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
 
-    /* ===== VARIABLES ===== */
     :root {
       --accent:  #c0392b;
       --accent2: #7f1c14;
@@ -29,6 +27,34 @@
       --pad:     100px 40px;
     }
 
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
     /* ===== NAV ===== */
     nav {
       position: fixed;
@@ -38,10 +64,12 @@
       align-items: center;
       justify-content: space-between;
       padding: 22px 48px;
-      background: rgba(6,8,15,0.88);
+      background: rgba(6,8,10,0.88);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
     }
+    nav.scrolled { padding: 14px 48px; }
     .nav-logo {
       font-size: 1.4rem;
       font-weight: 800;
@@ -84,13 +112,25 @@
       position: relative;
       overflow: hidden;
     }
-    .hero-bg {
+    .hero-img {
       position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% 30%, rgba(192,57,43,0.10) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 35% at 80% 80%, rgba(127,28,20,0.06) 0%, transparent 60%);
-      pointer-events: none;
+      background-image: url('images/hero-callcenter.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.04);
+      transition: transform 8s ease;
     }
+    .hero-img.loaded { transform: scale(1); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(6,8,10,0.75) 0%,
+        rgba(6,8,10,0.65) 50%,
+        rgba(6,8,10,0.92) 100%
+      );
+    }
+    .hero-content { position: relative; z-index: 2; }
     .hero-eyebrow {
       display: inline-block;
       font-size: 0.76rem;
@@ -100,7 +140,7 @@
       color: var(--accent);
       margin-bottom: 24px;
       padding: 6px 18px;
-      border: 1px solid rgba(192,57,43,0.28);
+      border: 1px solid rgba(192,57,43,0.35);
       border-radius: 100px;
     }
     .hero-title {
@@ -121,9 +161,11 @@
     .hero-sub {
       margin-top: 28px;
       font-size: 1.1rem;
-      color: var(--muted);
+      color: rgba(232,236,242,0.75);
       max-width: 620px;
       line-height: 1.75;
+      margin-left: auto;
+      margin-right: auto;
     }
     .hero-actions {
       margin-top: 44px;
@@ -144,14 +186,14 @@
     .btn-primary:hover { background: #a32420; transform: translateY(-2px); }
     .btn-outline {
       padding: 15px 36px;
-      border: 1px solid var(--border);
-      color: #b0bac8;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #e8ecf2;
       border-radius: 7px;
       font-weight: 600;
       font-size: 0.92rem;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
     }
-    .btn-outline:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
 
     /* ===== STATS ===== */
     .stats-strip {
@@ -211,87 +253,131 @@
       line-height: 1.8;
     }
 
-    /* ===== NOSOTROS - PILARES ===== */
+    /* ===== NOSOTROS ===== */
     #nosotros { background: var(--dark2); }
-    .pillars {
-      margin-top: 64px;
+    .nosotros-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .nosotros-img-wrap {
+      position: relative;
       border-radius: 16px;
       overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .nosotros-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .nosotros-img-wrap:hover img { transform: scale(1.04); }
+    .nosotros-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+    }
+    .pillars {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
     }
     .pillar {
-      padding: 48px 40px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 28px;
       background: var(--dark3);
-      transition: background 0.2s;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: default;
     }
-    .pillar:hover { background: #1c2130; }
+    .pillar:hover { background: #1c2130; border-color: rgba(192,57,43,0.3); }
     .pillar-num {
       font-size: 0.7rem;
       font-weight: 800;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: var(--accent);
-      margin-bottom: 24px;
+      min-width: 28px;
+      padding-top: 3px;
     }
+    .pillar-body {}
     .pillar-title {
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: 800;
       color: #fff;
-      margin-bottom: 14px;
-      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
-    .pillar-text { color: var(--muted); font-size: 0.9rem; line-height: 1.75; }
+    .pillar-text { color: var(--muted); font-size: 0.87rem; line-height: 1.7; }
 
-    /* ===== SERVICIOS ===== */
+    /* ===== SERVICIOS (TABS) ===== */
     #servicios { background: var(--dark); }
-    .services-header {
+    .tab-header {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-bottom: 56px;
+      gap: 4px;
+      margin-top: 48px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
     }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 20px;
+    .tab-btn {
+      padding: 12px 28px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+      transition: color 0.2s, border-color 0.2s;
+      margin-bottom: -1px;
     }
+    .tab-btn:hover { color: #fff; }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
     .service-card {
-      padding: 40px 36px;
+      padding: 36px 32px;
       border: 1px solid var(--border);
       border-radius: 14px;
       background: var(--dark2);
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s, transform 0.25s;
       cursor: default;
     }
     .service-card:hover {
       border-color: rgba(192,57,43,0.35);
-      transform: translateY(-4px);
+      transform: translateY(-5px);
     }
     .service-icon {
-      width: 46px; height: 46px;
+      width: 44px; height: 44px;
       border-radius: 10px;
       background: rgba(192,57,43,0.1);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       color: var(--accent);
     }
     .service-icon svg { width: 20px; height: 20px; }
     .service-name {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 800;
       color: #fff;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       letter-spacing: -0.3px;
     }
-    .service-desc { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
-    .service-tags { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .service-desc { color: var(--muted); font-size: 0.86rem; line-height: 1.75; }
+    .service-tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
     .service-tag {
       padding: 4px 12px;
       background: rgba(255,255,255,0.04);
@@ -299,11 +385,123 @@
       border-radius: 100px;
       font-size: 0.7rem;
       color: #8a94a6;
-      letter-spacing: 0.3px;
+    }
+
+    /* ===== IMAGEN FULL — DEVELOPERS ===== */
+    .img-showcase {
+      position: relative;
+      overflow: hidden;
+      height: 480px;
+    }
+    .img-showcase img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.06);
+      transition: transform 0.8s ease;
+    }
+    .img-showcase:hover img { transform: scale(1.02); }
+    .img-showcase-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(6,8,10,0.88) 0%,
+        rgba(6,8,10,0.50) 50%,
+        rgba(6,8,10,0.15) 100%
+      );
+      display: flex;
+      align-items: center;
+    }
+    .img-showcase-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+      width: 100%;
+    }
+    .img-showcase-content .section-eyebrow { margin-bottom: 14px; }
+    .img-showcase-content h2 {
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+      max-width: 500px;
+      line-height: 1.15;
+    }
+    .img-showcase-content p {
+      color: rgba(232,236,242,0.7);
+      font-size: 0.95rem;
+      max-width: 420px;
+      line-height: 1.8;
+      margin-top: 16px;
+    }
+
+    /* ===== VISION FUTURA ===== */
+    #vision { background: var(--dark2); }
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-top: 60px;
+    }
+    .vision-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .vision-card {
+      padding: 28px 32px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 12px 12px 0;
+      background: var(--dark3);
+      cursor: pointer;
+      transition: border-left-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .vision-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(192,57,43,0.04);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .vision-card:hover { border-left-color: var(--accent); background: #1c1e22; }
+    .vision-card:hover::before { opacity: 1; }
+    .vision-card.active { border-left-color: var(--accent); background: #1c1e22; }
+    .vision-card-title {
+      font-size: 0.97rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .vision-card-text { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+    .vision-img-wrap {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .vision-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .vision-img-wrap:hover img { transform: scale(1.04); }
+    .vision-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      pointer-events: none;
     }
 
     /* ===== MISION / VISION ===== */
-    #mision { background: var(--dark2); }
+    #mision { background: var(--dark); }
     .mv-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -343,7 +541,7 @@
     }
 
     /* ===== VALORES ===== */
-    #valores { background: var(--dark); }
+    #valores { background: var(--dark2); }
     .valores-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -355,69 +553,25 @@
       border: 1px solid var(--border);
       border-top: 2px solid var(--accent2);
       border-radius: 12px;
-      background: var(--dark2);
-      transition: border-color 0.25s, border-top-color 0.25s;
+      background: var(--dark3);
+      transition: border-color 0.25s, border-top-color 0.25s, transform 0.25s;
     }
     .valor-card:hover {
-      border-color: rgba(192,57,43,0.3);
       border-top-color: var(--accent);
+      border-color: rgba(192,57,43,0.3);
+      transform: translateY(-3px);
     }
     .valor-name {
       font-size: 0.97rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 12px;
-      letter-spacing: -0.2px;
     }
     .valor-text { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
 
-    /* ===== TIMELINE ===== */
-    #historia { background: var(--dark2); }
-    .timeline {
-      margin-top: 64px;
-      position: relative;
-      padding-left: 32px;
-      max-width: 760px;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 8px; bottom: 40px;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-    }
-    .timeline-item {
-      position: relative;
-      padding: 0 0 48px 40px;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -5px; top: 6px;
-      width: 12px; height: 12px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--dark2);
-    }
-    .timeline-year {
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 3px;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-    .timeline-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: -0.2px;
-    }
-    .timeline-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
-
-    /* ===== CTA BAND ===== */
+    /* ===== CTA ===== */
     .cta-band {
-      background: linear-gradient(135deg, #0b1a35 0%, #0d1017 55%, #091427 100%);
+      background: linear-gradient(135deg, #0b1a35 0%, #0d0e10 55%, #14090a 100%);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       padding: 100px 40px;
@@ -455,9 +609,7 @@
       width: 42px; height: 42px;
       border-radius: 10px;
       background: rgba(192,57,43,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       color: var(--accent);
     }
@@ -486,11 +638,9 @@
     .form-submit {
       padding: 14px 32px;
       background: var(--accent);
-      color: #fff;
-      border: none;
+      color: #fff; border: none;
       border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.92rem;
+      font-weight: 700; font-size: 0.92rem;
       cursor: pointer;
       transition: background 0.2s, transform 0.15s;
       align-self: flex-start;
@@ -514,12 +664,9 @@
     .footer-brand .nav-logo { font-size: 1.45rem; margin-bottom: 16px; display: block; }
     .footer-brand p { color: #3e4555; font-size: 0.84rem; line-height: 1.75; max-width: 260px; }
     .footer-col h4 {
-      font-size: 0.7rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #e8ecf2;
-      margin-bottom: 18px;
+      font-size: 0.7rem; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: #e8ecf2; margin-bottom: 18px;
     }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 10px; }
@@ -528,38 +675,41 @@
     .footer-bottom {
       border-top: 1px solid var(--border);
       padding-top: 28px;
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
+      flex-wrap: wrap; gap: 12px;
     }
     .footer-bottom p { color: #2e3545; font-size: 0.78rem; }
 
     /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .nosotros-grid, .vision-grid, .contact-grid, .mv-grid { grid-template-columns: 1fr; }
+      .nosotros-img-wrap, .vision-img-wrap { aspect-ratio: 16/9; }
+    }
     @media (max-width: 768px) {
       nav { padding: 18px 24px; }
       .nav-links { display: none; }
       section { padding: 70px 24px; }
       .stats-strip { padding: 48px 24px; }
-      .mv-grid { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
       .footer-top { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .cta-band { padding: 70px 24px; }
+      .img-showcase { height: 320px; }
+      .img-showcase-overlay { background: rgba(6,8,10,0.75); align-items: flex-end; }
+      .img-showcase-content { padding: 0 24px 32px; }
     }
   </style>
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
+  <nav id="navbar">
     <div class="nav-logo">Tech<span>Corp</span></div>
     <ul class="nav-links">
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#servicios">Servicios</a></li>
-      <li><a href="#mision">Mision</a></li>
-      <li><a href="#historia">Historia</a></li>
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#mision">Proposito</a></li>
       <li><a href="#contacto">Contacto</a></li>
       <li><a href="#contacto" class="nav-cta">Contactenos</a></li>
     </ul>
@@ -567,42 +717,45 @@
 
   <!-- HERO -->
   <section id="inicio">
-    <div class="hero-bg"></div>
-    <div class="hero-eyebrow">Desde 2017 &middot; BPO &amp; Tecnologia</div>
-    <h1 class="hero-title">
-      Capital humano,<br />tecnologia e <em>Inteligencia<br />Artificial</em> integrados.
-    </h1>
-    <p class="hero-sub">
-      Respaldamos el crecimiento de las organizaciones mas exigentes mediante soluciones de
-      outsourcing, desarrollo de software y tecnologia de inteligencia artificial de ultima generacion.
-    </p>
-    <div class="hero-actions">
-      <a href="#servicios" class="btn-primary">Ver servicios</a>
-      <a href="#contacto" class="btn-outline">Contactar</a>
+    <div class="hero-img" id="heroImg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow reveal">Desde 2017 &middot; BPO &amp; Tecnologia</div>
+      <h1 class="hero-title reveal reveal-delay-1">
+        Capital humano,<br />tecnologia e <em>Inteligencia<br />Artificial</em> integrados.
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Respaldamos el crecimiento de las organizaciones mas exigentes mediante soluciones de
+        outsourcing, desarrollo de software y tecnologia de inteligencia artificial de ultima generacion.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#servicios" class="btn-primary">Ver servicios</a>
+        <a href="#contacto" class="btn-outline">Contactar</a>
+      </div>
     </div>
   </section>
 
   <!-- STATS -->
   <div class="stats-strip">
     <div class="stats-grid">
-      <div>
-        <div class="stat-num">8<span>+</span></div>
+      <div class="reveal">
+        <div class="stat-num" data-target="8">0<span>+</span></div>
         <div class="stat-label">Anos de trayectoria</div>
       </div>
-      <div>
-        <div class="stat-num">200<span>+</span></div>
+      <div class="reveal reveal-delay-1">
+        <div class="stat-num" data-target="200">0<span>+</span></div>
         <div class="stat-label">Clientes atendidos</div>
       </div>
-      <div>
-        <div class="stat-num">15<span>+</span></div>
+      <div class="reveal reveal-delay-2">
+        <div class="stat-num" data-target="15">0<span>+</span></div>
         <div class="stat-label">Paises con presencia</div>
       </div>
-      <div>
-        <div class="stat-num">500<span>+</span></div>
+      <div class="reveal reveal-delay-3">
+        <div class="stat-num" data-target="500">0<span>+</span></div>
         <div class="stat-label">Profesionales</div>
       </div>
-      <div>
-        <div class="stat-num">98<span>%</span></div>
+      <div class="reveal reveal-delay-4">
+        <div class="stat-num" data-target="98">0<span>%</span></div>
         <div class="stat-label">Satisfaccion del cliente</div>
       </div>
     </div>
@@ -611,133 +764,121 @@
   <!-- NOSOTROS -->
   <section id="nosotros">
     <div class="section-inner">
-      <p class="section-eyebrow">Quienes somos</p>
-      <h2 class="section-title">Construidos para transformar operaciones a escala.</h2>
-      <p class="section-desc">
-        Somos una empresa de servicios tecnologicos y BPO que integra talento humano de alto
-        rendimiento con tecnologia de vanguardia para generar resultados medibles y sostenibles.
-      </p>
-      <div class="pillars">
-        <div class="pillar">
-          <div class="pillar-num">01</div>
-          <div class="pillar-title">Inteligencia Artificial como ventaja competitiva</div>
-          <p class="pillar-text">
-            Integramos inteligencia artificial en los procesos criticos del negocio para
-            automatizar operaciones, reducir el margen de error y potenciar la capacidad
-            de decision en cada nivel organizacional.
+      <div class="nosotros-grid">
+        <div class="reveal-left">
+          <p class="section-eyebrow">Quienes somos</p>
+          <h2 class="section-title">Construidos para transformar operaciones a escala.</h2>
+          <p class="section-desc">
+            Somos una empresa de servicios tecnologicos y BPO que integra talento humano de
+            alto rendimiento con tecnologia de vanguardia para generar resultados medibles
+            y sostenibles en cada organizacion que acompanamos.
           </p>
+          <div class="pillars">
+            <div class="pillar">
+              <div class="pillar-num">01</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Inteligencia Artificial como ventaja competitiva</div>
+                <p class="pillar-text">Automatizamos procesos criticos, reducimos el margen de error y potenciamos la capacidad de decision en cada nivel organizacional.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-num">02</div>
+              <div class="pillar-body">
+                <div class="pillar-title">El capital humano como eje central</div>
+                <p class="pillar-text">Profesionales formados que operan como una extension genuina de la organizacion del cliente, con compromiso y excelencia operativa.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <div class="pillar-num">03</div>
+              <div class="pillar-body">
+                <div class="pillar-title">Estrategia orientada a resultados</div>
+                <p class="pillar-text">Cada solucion parte de un entendimiento profundo del negocio. Construimos alianzas estrategicas orientadas al crecimiento de largo plazo.</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="pillar">
-          <div class="pillar-num">02</div>
-          <div class="pillar-title">El capital humano como eje central</div>
-          <p class="pillar-text">
-            Nuestros equipos son la columna vertebral de cada servicio. Seleccionamos,
-            formamos y desarrollamos profesionales que operan como una extension
-            genuina de la organizacion del cliente.
-          </p>
-        </div>
-        <div class="pillar">
-          <div class="pillar-num">03</div>
-          <div class="pillar-title">Estrategia orientada a resultados</div>
-          <p class="pillar-text">
-            Cada solucion se diseña a partir de un entendimiento profundo del negocio.
-            No ofrecemos productos estandar: construimos alianzas estrategicas
-            orientadas al crecimiento de largo plazo.
-          </p>
+        <div class="reveal-right">
+          <div class="nosotros-img-wrap">
+            <img src="images/team-office.jpg" alt="Equipo de trabajo en oficina" loading="lazy" />
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SERVICIOS -->
+  <!-- SERVICIOS (TABS) -->
   <section id="servicios">
     <div class="section-inner">
-      <div class="services-header">
-        <div>
-          <p class="section-eyebrow">Servicios</p>
-          <h2 class="section-title">Soluciones integrales para el crecimiento empresarial.</h2>
-        </div>
-        <p style="color:var(--muted); font-size:0.88rem; max-width:300px; line-height:1.8;">
-          Desde la primera linea de atencion al cliente hasta el desarrollo de software a medida
-          y la implementacion de inteligencia artificial.
-        </p>
+      <div class="reveal">
+        <p class="section-eyebrow">Servicios</p>
+        <h2 class="section-title">Soluciones integrales para el crecimiento empresarial.</h2>
       </div>
-      <div class="services-grid">
+      <div class="tab-header reveal reveal-delay-1">
+        <button class="tab-btn active" data-tab="operaciones">Operaciones &amp; Atencion</button>
+        <button class="tab-btn" data-tab="tecnologia">Tecnologia &amp; Software</button>
+      </div>
 
-        <div class="service-card">
+      <div id="tab-operaciones" class="tab-panel active">
+        <div class="service-card reveal">
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
           </div>
           <div class="service-name">BPO — Outsourcing de Procesos</div>
-          <p class="service-desc">
-            Gestionamos y optimizamos los procesos de negocio de nuestros clientes con
-            equipos especializados, infraestructura robusta e indicadores de desempeno
-            definidos contractualmente.
-          </p>
+          <p class="service-desc">Gestionamos y optimizamos los procesos de negocio con equipos especializados, infraestructura robusta e indicadores de desempeno definidos contractualmente.</p>
           <div class="service-tags">
             <span class="service-tag">Back office</span>
             <span class="service-tag">Gestion documental</span>
             <span class="service-tag">Procesos administrativos</span>
           </div>
         </div>
-
-        <div class="service-card">
+        <div class="service-card reveal reveal-delay-1">
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
             </svg>
           </div>
           <div class="service-name">Atencion al Cliente</div>
-          <p class="service-desc">
-            Equipos dedicados que brindan soporte omnicanal con estandares de calidad
-            garantizados, gestion de CSAT y reporteria ejecutiva en tiempo real.
-          </p>
+          <p class="service-desc">Equipos dedicados con soporte omnicanal, estandares de calidad garantizados, gestion de CSAT y reporteria ejecutiva en tiempo real para cada cliente.</p>
           <div class="service-tags">
             <span class="service-tag">Contact center</span>
             <span class="service-tag">Soporte 24/7</span>
             <span class="service-tag">Omnicanal</span>
           </div>
         </div>
-
-        <div class="service-card">
+        <div class="service-card reveal reveal-delay-2">
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/>
             </svg>
           </div>
           <div class="service-name">Soporte Tecnico</div>
-          <p class="service-desc">
-            Help desk y soporte tecnico de primer, segundo y tercer nivel para empresas
-            tecnologicas y usuarios finales, con acuerdos de nivel de servicio (SLA) formalizados.
-          </p>
+          <p class="service-desc">Help desk y soporte tecnico de primer, segundo y tercer nivel con acuerdos de nivel de servicio (SLA) formalizados y equipos altamente especializados.</p>
           <div class="service-tags">
             <span class="service-tag">Help desk</span>
             <span class="service-tag">Niveles 1 al 3</span>
             <span class="service-tag">SLA garantizado</span>
           </div>
         </div>
+      </div>
 
-        <div class="service-card">
+      <div id="tab-tecnologia" class="tab-panel">
+        <div class="service-card reveal">
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
             </svg>
           </div>
           <div class="service-name">Desarrollo de Software</div>
-          <p class="service-desc">
-            Disenamos y desarrollamos aplicaciones web, moviles y sistemas a medida
-            mediante metodologias agiles, arquitecturas escalables y tecnologias modernas.
-          </p>
+          <p class="service-desc">Disenamos y desarrollamos aplicaciones web, moviles y sistemas a medida mediante metodologias agiles, arquitecturas escalables y tecnologias modernas.</p>
           <div class="service-tags">
             <span class="service-tag">Web &amp; Mobile</span>
             <span class="service-tag">APIs &amp; microservicios</span>
             <span class="service-tag">Cloud</span>
           </div>
         </div>
-
-        <div class="service-card">
+        <div class="service-card reveal reveal-delay-1">
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="12" cy="20" r="2"/>
@@ -747,18 +888,14 @@
             </svg>
           </div>
           <div class="service-name">Inteligencia Artificial</div>
-          <p class="service-desc">
-            Implementamos soluciones de IA, machine learning y automatizacion inteligente
-            para transformar datos operativos en ventajas competitivas concretas.
-          </p>
+          <p class="service-desc">Implementamos soluciones de IA y machine learning para transformar datos operativos en ventajas competitivas concretas y automatizar procesos de alto volumen.</p>
           <div class="service-tags">
             <span class="service-tag">Machine Learning</span>
             <span class="service-tag">Agentes IA</span>
             <span class="service-tag">Automatizacion</span>
           </div>
         </div>
-
-        <div class="service-card">
+        <div class="service-card reveal reveal-delay-2">
           <div class="service-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
@@ -766,17 +903,64 @@
             </svg>
           </div>
           <div class="service-name">Consultoria IT</div>
-          <p class="service-desc">
-            Acompanamos la transformacion digital con consultoria estrategica en tecnologia,
-            arquitectura de sistemas, gestion del cambio y definicion de roadmap tecnologico.
-          </p>
+          <p class="service-desc">Acompanamos la transformacion digital con consultoria estrategica en tecnologia, arquitectura de sistemas, gestion del cambio y roadmap tecnologico.</p>
           <div class="service-tags">
             <span class="service-tag">Transformacion digital</span>
-            <span class="service-tag">Arquitectura de sistemas</span>
+            <span class="service-tag">Arquitectura</span>
             <span class="service-tag">Roadmap IT</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- IMAGEN DEVELOPERS -->
+  <div class="img-showcase reveal">
+    <img src="images/developers.jpg" alt="Equipo de desarrollo tecnologico" loading="lazy" />
+    <div class="img-showcase-overlay">
+      <div class="img-showcase-content">
+        <p class="section-eyebrow">Capacidad tecnica</p>
+        <h2>Ingenieria de software orientada a impacto real.</h2>
+        <p>Nuestros equipos de desarrollo trabajan con tecnologias de vanguardia para construir soluciones robustas, escalables y alineadas a los objetivos del negocio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISION FUTURA -->
+  <section id="vision">
+    <div class="section-inner">
+      <div class="vision-grid">
+        <div class="reveal-left">
+          <p class="section-eyebrow">Vision 2025 — 2030</p>
+          <h2 class="section-title">El futuro de la atencion al cliente ya esta aqui.</h2>
+          <p class="section-desc">
+            Estamos construyendo la proxima generacion de soluciones para centros de contacto
+            y atencion al cliente, impulsadas por inteligencia artificial y automatizacion avanzada.
+          </p>
+          <div class="vision-cards" style="margin-top:36px;">
+            <div class="vision-card active">
+              <div class="vision-card-title">Contact centers impulsados por IA</div>
+              <p class="vision-card-text">Sistemas de enrutamiento inteligente, analisis de sentimiento en tiempo real y agentes virtuales que resuelven el 60% de las consultas de forma autonoma.</p>
+            </div>
+            <div class="vision-card">
+              <div class="vision-card-title">Automatizacion de procesos de soporte</div>
+              <p class="vision-card-text">Bots conversacionales avanzados integrados con CRM, sistemas de ticketing y bases de conocimiento para reducir tiempos de resolucion.</p>
+            </div>
+            <div class="vision-card">
+              <div class="vision-card-title">Analisis predictivo del cliente</div>
+              <p class="vision-card-text">Plataformas de inteligencia que anticipan necesidades, detectan riesgos de abandono y personalizan la experiencia de cada usuario.</p>
+            </div>
+            <div class="vision-card">
+              <div class="vision-card-title">Integracion omnicanal total</div>
+              <p class="vision-card-text">Unificacion de canales de voz, chat, email y redes sociales en una sola plataforma operativa con visibilidad 360 del cliente.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-right">
+          <div class="vision-img-wrap">
+            <img src="images/services-collage.jpg" alt="Soluciones tecnologicas empresariales" loading="lazy" />
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -784,15 +968,17 @@
   <!-- MISION & VISION -->
   <section id="mision">
     <div class="section-inner">
-      <p class="section-eyebrow">Proposito</p>
-      <h2 class="section-title">El proposito que orienta cada decision.</h2>
-      <div class="mv-grid">
+      <div class="reveal">
+        <p class="section-eyebrow">Proposito</p>
+        <h2 class="section-title">El proposito que orienta cada decision.</h2>
+      </div>
+      <div class="mv-grid reveal reveal-delay-1">
         <div class="mv-block">
           <div class="mv-label">Mision</div>
           <div class="mv-text">
-            Potenciar el crecimiento sostenible de nuestros clientes mediante la entrega de
-            talento humano especializado y soluciones tecnologicas de excelencia, con
-            compromiso, rigor e innovacion permanente.
+            Potenciar el crecimiento sostenible de nuestros clientes mediante talento humano
+            especializado y soluciones tecnologicas de excelencia, con compromiso,
+            rigor e innovacion permanente.
           </div>
           <p class="mv-sub">
             Cada proyecto representa una oportunidad de generar impacto real y duradero.
@@ -803,12 +989,12 @@
           <div class="mv-label">Vision</div>
           <div class="mv-text">
             Consolidarnos como la empresa de BPO y tecnologia de referencia en Latinoamerica,
-            reconocida por nuestra excelencia operativa, capacidad de innovacion y compromiso
-            con el exito del cliente.
+            reconocida por excelencia operativa, innovacion en IA y compromiso con
+            el exito del cliente.
           </div>
           <p class="mv-sub">
-            Aspiramos a un ecosistema empresarial donde la tecnologia y el talento humano
-            operen de forma sinergica para crear organizaciones mas eficientes y competitivas.
+            Un ecosistema empresarial donde la tecnologia y el talento humano operan en
+            sinergia para crear organizaciones mas eficientes y competitivas.
           </p>
         </div>
       </div>
@@ -818,30 +1004,32 @@
   <!-- VALORES -->
   <section id="valores">
     <div class="section-inner">
-      <p class="section-eyebrow">Cultura organizacional</p>
-      <h2 class="section-title">Los principios que rigen nuestra operacion.</h2>
+      <div class="reveal">
+        <p class="section-eyebrow">Cultura organizacional</p>
+        <h2 class="section-title">Los principios que rigen nuestra operacion.</h2>
+      </div>
       <div class="valores-grid">
-        <div class="valor-card">
+        <div class="valor-card reveal reveal-delay-1">
           <div class="valor-name">Orientacion al resultado</div>
           <p class="valor-text">Cada accion se alinea con el impacto concreto para el cliente. Medimos, analizamos y optimizamos de forma sistematica.</p>
         </div>
-        <div class="valor-card">
+        <div class="valor-card reveal reveal-delay-2">
           <div class="valor-name">Innovacion continua</div>
           <p class="valor-text">Anticipamos los cambios del mercado e incorporamos nuevas tecnologias y metodologias antes de que se conviertan en estandar.</p>
         </div>
-        <div class="valor-card">
+        <div class="valor-card reveal reveal-delay-3">
           <div class="valor-name">Transparencia y confianza</div>
           <p class="valor-text">Edificamos relaciones de largo plazo sustentadas en la comunicacion clara, el cumplimiento de compromisos y la integridad.</p>
         </div>
-        <div class="valor-card">
+        <div class="valor-card reveal reveal-delay-4">
           <div class="valor-name">Crecimiento compartido</div>
           <p class="valor-text">El exito de nuestros clientes es el fundamento de nuestro propio crecimiento. Alineamos nuestros objetivos con los suyos.</p>
         </div>
-        <div class="valor-card">
+        <div class="valor-card reveal reveal-delay-1">
           <div class="valor-name">Agilidad operativa</div>
           <p class="valor-text">La velocidad de respuesta y la capacidad de adaptacion son ventajas competitivas que cultivamos de forma deliberada.</p>
         </div>
-        <div class="valor-card">
+        <div class="valor-card reveal reveal-delay-2">
           <div class="valor-name">Impacto sostenible</div>
           <p class="valor-text">Construimos negocios responsables con las personas y el entorno, incorporando la perspectiva de largo plazo en cada decision.</p>
         </div>
@@ -849,91 +1037,24 @@
     </div>
   </section>
 
-  <!-- HISTORIA -->
-  <section id="historia">
-    <div class="section-inner">
-      <p class="section-eyebrow">Nuestra historia</p>
-      <h2 class="section-title">Ocho anos construyendo excelencia operativa.</h2>
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-year">2017</div>
-          <div class="timeline-title">Fundacion</div>
-          <p class="timeline-text">
-            Constitucion de la empresa con un equipo fundador especializado en servicios de
-            atencion al cliente y soporte tecnico, orientado inicialmente al mercado local.
-          </p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2018</div>
-          <div class="timeline-title">Primeros clientes corporativos</div>
-          <p class="timeline-text">
-            Incorporacion de los primeros clientes de mediana y gran empresa. Ampliacion del
-            portafolio hacia procesamiento de datos y operaciones de back office.
-          </p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2019 — 2020</div>
-          <div class="timeline-title">Expansion y adaptacion digital</div>
-          <p class="timeline-text">
-            Lanzamiento del area de desarrollo de software. Durante el periodo de pandemia,
-            lideramos la migracion de operaciones de multiples clientes hacia entornos
-            100% remotos con continuidad operativa plena.
-          </p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2021 — 2022</div>
-          <div class="timeline-title">Proyeccion regional</div>
-          <p class="timeline-text">
-            Inicio de operaciones para clientes en distintos paises de Latinoamerica.
-            Creacion del area de consultoria IT y soluciones tecnologicas empresariales.
-          </p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2023 — 2024</div>
-          <div class="timeline-title">Incorporacion de Inteligencia Artificial</div>
-          <p class="timeline-text">
-            Integracion de capacidades de IA y machine learning en nuestra oferta de servicios,
-            posicionando a la empresa como referente en la automatizacion inteligente de procesos.
-          </p>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2025 — presente</div>
-          <div class="timeline-title">Consolidacion y nuevo ciclo de crecimiento</div>
-          <p class="timeline-text">
-            Con mas de ocho anos de trayectoria sostenida, iniciamos un nuevo capitulo con
-            nuevas instalaciones, mercados emergentes y una propuesta de valor mas robusta que nunca.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BAND -->
+  <!-- CTA -->
   <div class="cta-band">
-    <h2>Impulse el crecimiento de su organizacion con nosotros.</h2>
-    <p>Compartanos su desafio. En 48 horas le presentamos una propuesta a medida.</p>
-    <a href="#contacto" class="btn-primary">Hablar con un especialista</a>
+    <h2 class="reveal">Impulse el crecimiento de su organizacion con nosotros.</h2>
+    <p class="reveal reveal-delay-1">Compartanos su desafio. En 48 horas le presentamos una propuesta a medida.</p>
+    <a href="#contacto" class="btn-primary reveal reveal-delay-2">Hablar con un especialista</a>
   </div>
 
   <!-- CONTACTO -->
   <section id="contacto">
     <div class="section-inner">
-      <p class="section-eyebrow">Contacto</p>
-      <h2 class="section-title">Iniciemos una conversacion.</h2>
+      <div class="reveal">
+        <p class="section-eyebrow">Contacto</p>
+        <h2 class="section-title">Iniciemos una conversacion.</h2>
+      </div>
       <div class="contact-grid">
-        <div class="contact-info">
+        <div class="contact-info reveal-left">
           <h3>Estamos disponibles para atender su consulta.</h3>
-          <p>
-            Complete el formulario o comuniquese directamente con nuestro equipo comercial.
-            Le responderemos dentro de las proximas 24 horas habiles.
-          </p>
+          <p>Complete el formulario o comuniquese directamente con nuestro equipo comercial. Le responderemos dentro de las proximas 24 horas habiles.</p>
           <div class="contact-item">
             <div class="contact-item-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -949,7 +1070,7 @@
           <div class="contact-item">
             <div class="contact-item-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.11 12 19.79 19.79 0 011.04 3.4 2 2 0 013 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
               </svg>
             </div>
             <div class="contact-item-text">
@@ -960,8 +1081,7 @@
           <div class="contact-item">
             <div class="contact-item-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                <circle cx="12" cy="10" r="3"/>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
               </svg>
             </div>
             <div class="contact-item-text">
@@ -970,7 +1090,7 @@
             </div>
           </div>
         </div>
-        <form>
+        <form class="reveal-right">
           <div class="form-row">
             <input type="text" placeholder="Nombre completo" required />
             <input type="text" placeholder="Empresa" />
@@ -1002,10 +1122,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <span class="nav-logo">Tech<span>Corp</span></span>
-          <p>
-            BPO, tecnologia e inteligencia artificial al servicio del crecimiento empresarial.
-            Desde 2017 transformando organizaciones en Latinoamerica.
-          </p>
+          <p>BPO, tecnologia e inteligencia artificial al servicio del crecimiento empresarial. Desde 2017 transformando organizaciones en Latinoamerica.</p>
         </div>
         <div class="footer-col">
           <h4>Servicios</h4>
@@ -1015,14 +1132,13 @@
             <li><a href="#servicios">Soporte Tecnico</a></li>
             <li><a href="#servicios">Desarrollo de Software</a></li>
             <li><a href="#servicios">Inteligencia Artificial</a></li>
-            <li><a href="#servicios">Consultoria IT</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Empresa</h4>
           <ul>
             <li><a href="#nosotros">Quienes somos</a></li>
-            <li><a href="#historia">Historia</a></li>
+            <li><a href="#vision">Vision</a></li>
             <li><a href="#valores">Valores</a></li>
             <li><a href="#mision">Mision y Vision</a></li>
             <li><a href="#contacto">Contacto</a></li>
@@ -1044,5 +1160,76 @@
     </div>
   </footer>
 
+  <script>
+    // ===== NAV SCROLL =====
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ===== HERO IMAGE LOAD =====
+    const heroImg = document.getElementById('heroImg');
+    const img = new Image();
+    img.onload = () => heroImg.classList.add('loaded');
+    img.src = 'images/hero-callcenter.jpg';
+
+    // ===== SCROLL REVEAL =====
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // ===== COUNTER ANIMATION =====
+    const counters = document.querySelectorAll('.stat-num[data-target]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          const suffix = el.querySelector('span').outerHTML;
+          let current = 0;
+          const step = Math.max(1, Math.floor(target / 50));
+          const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.innerHTML = current + suffix;
+            if (current >= target) clearInterval(timer);
+          }, 28);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => counterObserver.observe(c));
+
+    // ===== TABS =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const panel = document.getElementById('tab-' + tabId);
+        panel.classList.add('active');
+        panel.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+          el.classList.remove('visible');
+          setTimeout(() => el.classList.add('visible'), 50);
+        });
+      });
+    });
+
+    // ===== VISION CARDS =====
+    document.querySelectorAll('.vision-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        document.querySelectorAll('.vision-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
