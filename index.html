@@ -707,6 +707,67 @@
       .img-gallery { grid-template-columns: 1fr; }
     }
 
+    /* ===== INDUSTRIAS ===== */
+    #industrias { background: var(--dark2); }
+    .industrias-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: 56px;
+    }
+    .industrias-sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+    .industrias-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .industria-card {
+      padding: 40px 36px;
+      background: var(--dark3);
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .industria-card:hover { background: #1a1c20; }
+    .industria-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(192,57,43,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .industria-icon svg { width: 20px; height: 20px; }
+    .industria-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+    .industria-text {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.75;
+    }
+    @media (max-width: 900px) {
+      .industrias-header { grid-template-columns: 1fr; }
+      .industrias-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .industrias-grid { grid-template-columns: 1fr; }
+    }
+
     /* ===== POR QUE NEXVOID ===== */
     #porque { background: var(--dark); }
     .porque-grid {
@@ -831,6 +892,7 @@
     <ul class="nav-links">
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#industrias">Industrias</a></li>
       <li><a href="#vision">Vision</a></li>
       <li><a href="#porque">Por que NEXVOID</a></li>
       <li><a href="#contacto" class="nav-cta">Contactenos</a></li>
@@ -1089,6 +1151,107 @@
             <img src="images/imagessss.png" alt="Soluciones tecnologicas empresariales" loading="lazy" />
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIAS -->
+  <section id="industrias">
+    <div class="section-inner">
+      <div class="industrias-header reveal">
+        <div>
+          <p class="section-eyebrow">Sectores que atendemos</p>
+          <h2 class="section-title">Experiencia especializada en cada industria.</h2>
+        </div>
+        <p class="industrias-sub">
+          Nuestras soluciones de BPO, soporte y tecnología se adaptan a las exigencias
+          operativas y regulatorias de cada sector. Conocemos el negocio de nuestros clientes
+          antes de proponer cualquier solución.
+        </p>
+      </div>
+      <div class="industrias-grid">
+
+        <div class="industria-card reveal reveal-delay-1">
+          <div class="industria-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div class="industria-name">Tecnología y Software</div>
+          <p class="industria-text">
+            Soporte técnico especializado, help desk de nivel 1 al 3, gestión de incidencias
+            y equipos de desarrollo dedicados para empresas tecnológicas de alto crecimiento.
+          </p>
+        </div>
+
+        <div class="industria-card reveal reveal-delay-2">
+          <div class="industria-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+            </svg>
+          </div>
+          <div class="industria-name">E-commerce y Retail</div>
+          <p class="industria-text">
+            Atención al cliente omnicanal, gestión de pedidos, devoluciones y posventa para
+            plataformas de comercio electrónico con operaciones de alto volumen transaccional.
+          </p>
+        </div>
+
+        <div class="industria-card reveal reveal-delay-3">
+          <div class="industria-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </div>
+          <div class="industria-name">Servicios Financieros</div>
+          <p class="industria-text">
+            Procesamiento de datos, atención a clientes bancarios, soporte de productos
+            financieros y automatización de procesos para bancos, fintech y aseguradoras.
+          </p>
+        </div>
+
+        <div class="industria-card reveal reveal-delay-4">
+          <div class="industria-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0112 18.69a19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 6.18 2 2 0 014.11 4h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 11.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+          </div>
+          <div class="industria-name">Telecomunicaciones</div>
+          <p class="industria-text">
+            Contact centers especializados, gestión de quejas y reclamos, retención de clientes
+            y soporte técnico de primer nivel para operadoras y proveedores de servicios digitales.
+          </p>
+        </div>
+
+        <div class="industria-card reveal reveal-delay-1">
+          <div class="industria-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <div class="industria-name">Salud y Bienestar</div>
+          <p class="industria-text">
+            Gestión de turnos, atención a pacientes, soporte administrativo y procesamiento
+            de información sensible bajo estrictos estándares de confidencialidad y cumplimiento.
+          </p>
+        </div>
+
+        <div class="industria-card reveal reveal-delay-2">
+          <div class="industria-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4a1 1 0 011 1v11a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/>
+              <line x1="10" y1="3" x2="10" y2="16"/>
+            </svg>
+          </div>
+          <div class="industria-name">Logística y Transporte</div>
+          <p class="industria-text">
+            Seguimiento de envíos, atención a clientes en tiempo real, gestión de incidencias
+            operativas y automatización de procesos de back office para empresas logísticas.
+          </p>
+        </div>
+
       </div>
     </div>
   </section>
