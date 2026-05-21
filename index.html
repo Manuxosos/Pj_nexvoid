@@ -681,6 +681,50 @@
     }
     .footer-bottom p { color: #2e3545; font-size: 0.78rem; }
 
+    /* ===== POR QUE NEXVOID ===== */
+    #porque { background: var(--dark); }
+    .porque-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+    .porque-card {
+      display: flex;
+      gap: 24px;
+      padding: 44px 40px;
+      background: var(--dark2);
+      transition: background 0.2s;
+    }
+    .porque-card:hover { background: #141618; }
+    .porque-num {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      color: var(--accent);
+      min-width: 24px;
+      padding-top: 4px;
+      line-height: 1;
+    }
+    .porque-body {}
+    .porque-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+      line-height: 1.3;
+    }
+    .porque-text {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.75;
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .nosotros-grid, .vision-grid, .contact-grid, .mv-grid { grid-template-columns: 1fr; }
@@ -709,7 +753,7 @@
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#servicios">Servicios</a></li>
       <li><a href="#vision">Vision</a></li>
-      <li><a href="#mision">Proposito</a></li>
+      <li><a href="#porque">Por que NEXVOID</a></li>
       <li><a href="#contacto">Contacto</a></li>
       <li><a href="#contacto" class="nav-cta">Contactenos</a></li>
     </ul>
@@ -730,7 +774,7 @@
       </p>
       <div class="hero-actions reveal reveal-delay-3">
         <a href="#servicios" class="btn-primary">Ver servicios</a>
-        <a href="#contacto" class="btn-outline">Contactar</a>
+        <a href="#porque" class="btn-outline">Por que NEXVOID</a>
       </div>
     </div>
   </section>
@@ -961,6 +1005,96 @@
             <img src="images/imagessss.png" alt="Soluciones tecnologicas empresariales" loading="lazy" />
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUE NEXVOID -->
+  <section id="porque">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow">Por que elegirnos</p>
+        <h2 class="section-title">Lo que nos diferencia en el mercado.</h2>
+        <p class="section-desc">
+          No somos un proveedor mas. Somos un socio estrategico con capacidades tecnologicas
+          propias, equipos altamente especializados y un modelo de gestion orientado
+          al resultado del cliente.
+        </p>
+      </div>
+      <div class="porque-grid">
+
+        <div class="porque-card reveal reveal-delay-1">
+          <div class="porque-num">01</div>
+          <div class="porque-body">
+            <h3 class="porque-title">Tecnologia propia integrada</h3>
+            <p class="porque-text">
+              A diferencia de los operadores tradicionales de BPO, desarrollamos nuestras
+              propias herramientas de automatizacion, monitoreo y analisis. Esto nos permite
+              responder mas rapido y con mayor precision a las necesidades del cliente.
+            </p>
+          </div>
+        </div>
+
+        <div class="porque-card reveal reveal-delay-2">
+          <div class="porque-num">02</div>
+          <div class="porque-body">
+            <h3 class="porque-title">Equipos dedicados, no compartidos</h3>
+            <p class="porque-text">
+              Cada cliente cuenta con un equipo asignado en exclusividad. Sin recursos
+              compartidos ni atencion fragmentada. El equipo conoce el negocio del cliente
+              con la misma profundidad que su propio equipo interno.
+            </p>
+          </div>
+        </div>
+
+        <div class="porque-card reveal reveal-delay-3">
+          <div class="porque-num">03</div>
+          <div class="porque-body">
+            <h3 class="porque-title">Escalabilidad en tiempo real</h3>
+            <p class="porque-text">
+              Ampliamos o reducimos la capacidad operativa en funcion de la demanda del cliente,
+              sin tiempos de espera prolongados. Nuestro modelo permite escalar desde 5 hasta
+              500 posiciones en semanas.
+            </p>
+          </div>
+        </div>
+
+        <div class="porque-card reveal reveal-delay-4">
+          <div class="porque-num">04</div>
+          <div class="porque-body">
+            <h3 class="porque-title">Transparencia total en la operacion</h3>
+            <p class="porque-text">
+              Reporteria ejecutiva en tiempo real, acceso a dashboards operativos y reuniones
+              de seguimiento sistematizadas. El cliente tiene visibilidad completa sobre
+              cada indicador de su operacion en todo momento.
+            </p>
+          </div>
+        </div>
+
+        <div class="porque-card reveal reveal-delay-1">
+          <div class="porque-num">05</div>
+          <div class="porque-body">
+            <h3 class="porque-title">IA aplicada desde el primer dia</h3>
+            <p class="porque-text">
+              No ofrecemos inteligencia artificial como un modulo adicional. Esta integrada
+              en el nucleo de cada servicio: desde el enrutamiento de llamadas hasta el
+              analisis predictivo de satisfaccion del cliente.
+            </p>
+          </div>
+        </div>
+
+        <div class="porque-card reveal reveal-delay-2">
+          <div class="porque-num">06</div>
+          <div class="porque-body">
+            <h3 class="porque-title">Trayectoria comprobada desde 2017</h3>
+            <p class="porque-text">
+              Ocho anos de operacion continua, con crecimiento sostenido y clientes que
+              nos eligen ano tras ano. Nuestra trayectoria respalda cada propuesta
+              y elimina la incertidumbre del riesgo operativo.
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
