@@ -751,10 +751,63 @@
       line-height: 1.75;
     }
 
+    /* ===== SERVICIOS SPLIT ===== */
+    .servicios-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-bottom: 52px;
+    }
+    .servicios-img-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .servicios-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .servicios-img-wrap:hover img { transform: scale(1.04); }
+
+    /* ===== POR QUE LAYOUT ===== */
+    .porque-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 64px;
+      align-items: start;
+    }
+    .porque-img-col {
+      position: sticky;
+      top: 100px;
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+    }
+    .porque-img-col img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .porque-img-col:hover img { transform: scale(1.04); }
+
+    /* ===== VALORES CON FONDO ===== */
+    .valores-with-bg { position: relative; }
+    .valores-bg {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.12);
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .nosotros-grid, .vision-grid, .contact-grid, .mv-grid { grid-template-columns: 1fr; }
       .nosotros-img-wrap, .vision-img-wrap { aspect-ratio: 16/9; }
+      .servicios-split { grid-template-columns: 1fr; }
+      .porque-layout { grid-template-columns: 1fr; }
+      .porque-img-col { position: static; aspect-ratio: 16/9; }
     }
     @media (max-width: 768px) {
       nav { padding: 18px 24px; }
@@ -875,25 +928,18 @@
     </div>
   </section>
 
-  <!-- GALERIA -->
-  <div class="img-gallery">
-    <div class="gallery-item reveal-left">
-      <img src="images/ti.png" alt="Soluciones tecnologicas" loading="lazy" />
-    </div>
-    <div class="gallery-item reveal">
-      <img src="images/mejor.png" alt="Equipo de trabajo" loading="lazy" />
-    </div>
-    <div class="gallery-item reveal-right">
-      <img src="images/1.png" alt="Operaciones empresariales" loading="lazy" />
-    </div>
-  </div>
-
   <!-- SERVICIOS (TABS) -->
   <section id="servicios">
     <div class="section-inner">
-      <div class="reveal">
-        <p class="section-eyebrow">Servicios</p>
-        <h2 class="section-title">Soluciones integrales para el crecimiento empresarial.</h2>
+      <div class="servicios-split">
+        <div class="reveal-left">
+          <p class="section-eyebrow">Servicios</p>
+          <h2 class="section-title">Soluciones integrales para el crecimiento empresarial.</h2>
+          <p class="section-desc">Desde la primera linea de atencion al cliente hasta el desarrollo de software a medida e implementacion de inteligencia artificial.</p>
+        </div>
+        <div class="servicios-img-wrap reveal-right">
+          <img src="images/ti.png" alt="Servicios tecnologicos" loading="lazy" />
+        </div>
       </div>
       <div class="tab-header reveal reveal-delay-1">
         <button class="tab-btn active" data-tab="operaciones">Operaciones &amp; Atencion</button>
@@ -1050,16 +1096,16 @@
   <!-- POR QUE NEXVOID -->
   <section id="porque">
     <div class="section-inner">
-      <div class="reveal">
-        <p class="section-eyebrow">Por que elegirnos</p>
-        <h2 class="section-title">Lo que nos diferencia en el mercado.</h2>
-        <p class="section-desc">
-          No somos un proveedor mas. Somos un socio estrategico con capacidades tecnologicas
-          propias, equipos altamente especializados y un modelo de gestion orientado
-          al resultado del cliente.
-        </p>
-      </div>
-      <div class="porque-grid">
+      <div class="porque-layout">
+        <div class="reveal-left">
+          <p class="section-eyebrow">Por que elegirnos</p>
+          <h2 class="section-title">Lo que nos diferencia en el mercado.</h2>
+          <p class="section-desc">
+            No somos un proveedor mas. Somos un socio estrategico con capacidades tecnologicas
+            propias, equipos altamente especializados y un modelo de gestion orientado
+            al resultado del cliente.
+          </p>
+          <div class="porque-grid">
 
         <div class="porque-card reveal reveal-delay-1">
           <div class="porque-num">01</div>
@@ -1133,9 +1179,26 @@
           </div>
         </div>
 
+          </div>
+        </div>
+        <div class="porque-img-col reveal-right">
+          <img src="images/mejor.png" alt="Por que elegirnos" loading="lazy" />
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- IMAGEN MISION -->
+  <div class="img-showcase reveal">
+    <img src="images/1.png" alt="Proposito y vision empresarial" loading="lazy" />
+    <div class="img-showcase-overlay">
+      <div class="img-showcase-content">
+        <p class="section-eyebrow">Proposito</p>
+        <h2>Cada decision orientada al crecimiento del cliente.</h2>
+        <p>Operamos con un proposito claro: generar impacto real y sostenible en cada organizacion que acompanamos.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- MISION & VISION -->
   <section id="mision">
@@ -1174,8 +1237,9 @@
   </section>
 
   <!-- VALORES -->
-  <section id="valores">
-    <div class="section-inner">
+  <section id="valores" class="valores-with-bg">
+    <div class="valores-bg" style="background-image:url('images/haha.jpg.jpeg')"></div>
+    <div class="section-inner" style="position:relative;z-index:1">
       <div class="reveal">
         <p class="section-eyebrow">Cultura organizacional</p>
         <h2 class="section-title">Los principios que rigen nuestra operacion.</h2>
