@@ -768,6 +768,164 @@
       .industrias-grid { grid-template-columns: 1fr; }
     }
 
+    /* ===== INDUSTRIA CARDS INTERACTIVAS ===== */
+    .industria-card {
+      cursor: pointer;
+      position: relative;
+    }
+    .industria-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .industria-card:hover::after { transform: scaleX(1); }
+    .industria-cta {
+      margin-top: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+    .industria-card:hover .industria-cta { gap: 10px; }
+
+    /* ===== MODAL ===== */
+    .imodal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .imodal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .imodal-box {
+      background: #141618;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 48px;
+      max-width: 620px;
+      width: 100%;
+      position: relative;
+      transform: translateY(28px) scale(0.97);
+      transition: transform 0.35s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .imodal-overlay.open .imodal-box {
+      transform: translateY(0) scale(1);
+    }
+    .imodal-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: #aaa;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1;
+    }
+    .imodal-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .imodal-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .imodal-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      background: rgba(192,57,43,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .imodal-icon svg { width: 22px; height: 22px; }
+    .imodal-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .imodal-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .imodal-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .imodal-services-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    .imodal-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .imodal-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.86rem;
+      color: #c0cad8;
+      line-height: 1.5;
+    }
+    .imodal-list li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .imodal-cta { display: inline-block; }
+    @media (max-width: 600px) {
+      .imodal-box { padding: 32px 24px; }
+      .imodal-list { grid-template-columns: 1fr; }
+    }
+
     /* ===== POR QUE NEXVOID ===== */
     #porque { background: var(--dark); }
     .porque-grid {
@@ -1165,26 +1323,24 @@
         </div>
         <p class="industrias-sub">
           Nuestras soluciones de BPO, soporte y tecnología se adaptan a las exigencias
-          operativas y regulatorias de cada sector. Conocemos el negocio de nuestros clientes
-          antes de proponer cualquier solución.
+          de cada sector. Hacé click en cualquier industria para conocer en detalle
+          cómo trabajamos con ella.
         </p>
       </div>
       <div class="industrias-grid">
 
-        <div class="industria-card reveal reveal-delay-1">
+        <div class="industria-card reveal reveal-delay-1" data-modal="tech">
           <div class="industria-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
             </svg>
           </div>
           <div class="industria-name">Tecnología y Software</div>
-          <p class="industria-text">
-            Soporte técnico especializado, help desk de nivel 1 al 3, gestión de incidencias
-            y equipos de desarrollo dedicados para empresas tecnológicas de alto crecimiento.
-          </p>
+          <p class="industria-text">Soporte técnico especializado, help desk N1 al N3 y equipos de desarrollo dedicados para empresas tecnológicas de alto crecimiento.</p>
+          <div class="industria-cta">Ver servicios para este sector <span>&#8594;</span></div>
         </div>
 
-        <div class="industria-card reveal reveal-delay-2">
+        <div class="industria-card reveal reveal-delay-2" data-modal="ecommerce">
           <div class="industria-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
@@ -1192,69 +1348,77 @@
             </svg>
           </div>
           <div class="industria-name">E-commerce y Retail</div>
-          <p class="industria-text">
-            Atención al cliente omnicanal, gestión de pedidos, devoluciones y posventa para
-            plataformas de comercio electrónico con operaciones de alto volumen transaccional.
-          </p>
+          <p class="industria-text">Atención al cliente omnicanal, gestión de pedidos, devoluciones y posventa para plataformas con operaciones de alto volumen transaccional.</p>
+          <div class="industria-cta">Ver servicios para este sector <span>&#8594;</span></div>
         </div>
 
-        <div class="industria-card reveal reveal-delay-3">
+        <div class="industria-card reveal reveal-delay-3" data-modal="finanzas">
           <div class="industria-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
             </svg>
           </div>
           <div class="industria-name">Servicios Financieros</div>
-          <p class="industria-text">
-            Procesamiento de datos, atención a clientes bancarios, soporte de productos
-            financieros y automatización de procesos para bancos, fintech y aseguradoras.
-          </p>
+          <p class="industria-text">Procesamiento de datos, atención a clientes bancarios, soporte de productos financieros y automatización para bancos, fintech y aseguradoras.</p>
+          <div class="industria-cta">Ver servicios para este sector <span>&#8594;</span></div>
         </div>
 
-        <div class="industria-card reveal reveal-delay-4">
+        <div class="industria-card reveal reveal-delay-4" data-modal="telco">
           <div class="industria-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0112 18.69a19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 6.18 2 2 0 014.11 4h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 11.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
             </svg>
           </div>
           <div class="industria-name">Telecomunicaciones</div>
-          <p class="industria-text">
-            Contact centers especializados, gestión de quejas y reclamos, retención de clientes
-            y soporte técnico de primer nivel para operadoras y proveedores de servicios digitales.
-          </p>
+          <p class="industria-text">Contact centers especializados, retención de clientes, gestión de reclamos y soporte técnico de primer nivel para operadoras y proveedores digitales.</p>
+          <div class="industria-cta">Ver servicios para este sector <span>&#8594;</span></div>
         </div>
 
-        <div class="industria-card reveal reveal-delay-1">
+        <div class="industria-card reveal reveal-delay-1" data-modal="media">
           <div class="industria-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
             </svg>
           </div>
-          <div class="industria-name">Salud y Bienestar</div>
-          <p class="industria-text">
-            Gestión de turnos, atención a pacientes, soporte administrativo y procesamiento
-            de información sensible bajo estrictos estándares de confidencialidad y cumplimiento.
-          </p>
+          <div class="industria-name">Medios y Entretenimiento</div>
+          <p class="industria-text">Moderación de contenido, soporte a suscriptores, gestión de comunidades digitales y atención multicanal para plataformas de streaming y gaming.</p>
+          <div class="industria-cta">Ver servicios para este sector <span>&#8594;</span></div>
         </div>
 
-        <div class="industria-card reveal reveal-delay-2">
+        <div class="industria-card reveal reveal-delay-2" data-modal="startups">
           <div class="industria-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="3" width="15" height="13" rx="1"/>
-              <path d="M16 8h4a1 1 0 011 1v11a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/>
-              <line x1="10" y1="3" x2="10" y2="16"/>
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
             </svg>
           </div>
-          <div class="industria-name">Logística y Transporte</div>
-          <p class="industria-text">
-            Seguimiento de envíos, atención a clientes en tiempo real, gestión de incidencias
-            operativas y automatización de procesos de back office para empresas logísticas.
-          </p>
+          <div class="industria-name">Startups y Empresas Digitales</div>
+          <p class="industria-text">Operaciones BPO escalables desde el día 1, customer success, onboarding de usuarios y desarrollo de software a medida para empresas de alto crecimiento.</p>
+          <div class="industria-cta">Ver servicios para este sector <span>&#8594;</span></div>
         </div>
 
       </div>
     </div>
   </section>
+
+  <!-- MODAL INDUSTRIAS -->
+  <div id="industria-modal" class="imodal-overlay" role="dialog" aria-modal="true">
+    <div class="imodal-box">
+      <button class="imodal-close" id="modal-close" aria-label="Cerrar">&times;</button>
+      <div class="imodal-header">
+        <div class="imodal-icon" id="modal-icon"></div>
+        <div>
+          <div class="imodal-eyebrow" id="modal-eyebrow"></div>
+          <h3 class="imodal-title" id="modal-title"></h3>
+        </div>
+      </div>
+      <p class="imodal-desc" id="modal-desc"></p>
+      <div class="imodal-services">
+        <div class="imodal-services-label">Servicios que aplicamos</div>
+        <ul class="imodal-list" id="modal-list"></ul>
+      </div>
+      <a href="#contacto" class="btn-primary imodal-cta" id="modal-cta">Consultar disponibilidad para su sector</a>
+    </div>
+  </div>
 
   <!-- POR QUE NEXVOID -->
   <section id="porque">
@@ -1629,6 +1793,87 @@
         card.classList.add('active');
       });
     });
+
+    // ===== MODAL INDUSTRIAS =====
+    const modalData = {
+      tech: {
+        eyebrow: 'Tecnología y Software',
+        title: 'Soporte y desarrollo para empresas tecnológicas',
+        desc: 'Las empresas de software y tecnología necesitan equipos de soporte altamente calificados y capacidad de desarrollo escalable. En NEXVOID construimos equipos dedicados que conocen el producto del cliente con la misma profundidad que su equipo interno, garantizando tiempos de resolución óptimos y continuidad operativa.',
+        services: ['Help desk nivel 1, 2 y 3','Gestión de incidencias y SLA','Equipos de desarrollo dedicados','QA y testing de software','Documentación técnica','Soporte en múltiples idiomas','Monitoreo de plataformas','Integración con Jira, Zendesk y similares'],
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>'
+      },
+      ecommerce: {
+        eyebrow: 'E-commerce y Retail',
+        title: 'Operaciones de atención para comercio digital',
+        desc: 'El comercio electrónico exige equipos de atención disponibles las 24 horas, con capacidad de respuesta inmediata y escalabilidad para temporadas de alta demanda. Gestionamos toda la cadena de experiencia postventa con indicadores de calidad en tiempo real.',
+        services: ['Atención omnicanal 24/7','Gestión de pedidos y devoluciones','Chat en vivo y soporte por email','Gestión de reclamos y disputas','Escalabilidad en temporada alta','Soporte en marketplace','Reportería de satisfacción CSAT','Prevención de fraude operativo'],
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>'
+      },
+      finanzas: {
+        eyebrow: 'Servicios Financieros',
+        title: 'BPO y soporte para banca, fintech y seguros',
+        desc: 'El sector financiero requiere procesos rigurosos, confidencialidad absoluta y cumplimiento normativo estricto. Nuestros equipos están capacitados en regulaciones locales e internacionales y operamos bajo protocolos de seguridad de la información que garantizan la integridad de cada operación.',
+        services: ['Procesamiento de transacciones','Atención a clientes bancarios','Verificación KYC y AML','Soporte para productos financieros','Back office contable y administrativo','Gestión de cobranzas','Cumplimiento normativo','Privacidad y seguridad de datos'],
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>'
+      },
+      telco: {
+        eyebrow: 'Telecomunicaciones',
+        title: 'Contact centers especializados para telcos',
+        desc: 'Las operadoras y proveedores de servicios digitales enfrentan altos volúmenes de consultas, reclamos técnicos y presión constante sobre la retención de clientes. Diseñamos operaciones de contact center orientadas a reducir el churn y mejorar el NPS de forma sostenida.',
+        services: ['Contact center inbound y outbound','Retención y fidelización de clientes','Gestión de quejas y reclamos','Soporte técnico de primer nivel','Activación y portabilidad de servicios','Campañas de ventas y upgrade','Reportería NPS y churn','Atención en redes sociales'],
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0112 18.69a19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 6.18 2 2 0 014.11 4h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 11.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>'
+      },
+      media: {
+        eyebrow: 'Medios y Entretenimiento',
+        title: 'Soporte y moderación para plataformas digitales',
+        desc: 'Las plataformas de streaming, gaming y contenido digital necesitan equipos especializados en moderación, atención a usuarios y gestión de comunidades. Operamos con estándares de calidad definidos para cada tipo de plataforma y con soporte en múltiples idiomas y zonas horarias.',
+        services: ['Moderación de contenido','Soporte a suscriptores','Gestión de comunidades online','Atención multicanal multiidioma','Soporte técnico de plataformas','Gestión de reportes de abuso','Customer success para usuarios premium','Atención en redes sociales y foros'],
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>'
+      },
+      startups: {
+        eyebrow: 'Startups y Empresas Digitales',
+        title: 'Operaciones escalables para empresas de alto crecimiento',
+        desc: 'Las startups y empresas digitales necesitan operar con agilidad y escalar rápido sin perder calidad de servicio. En NEXVOID diseñamos estructuras operativas flexibles que crecen al ritmo del negocio, con equipos dedicados, tecnología integrada y reportería ejecutiva desde el primer día.',
+        services: ['BPO escalable desde 5 posiciones','Customer success y onboarding','Soporte técnico y product support','Back office y procesamiento de datos','Desarrollo de software a medida','Integración de IA en operaciones','Reportería ejecutiva en tiempo real','Consultoría IT y roadmap tecnológico'],
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>'
+      }
+    };
+
+    const overlay   = document.getElementById('industria-modal');
+    const closeBtn  = document.getElementById('modal-close');
+    const mIcon     = document.getElementById('modal-icon');
+    const mEyebrow  = document.getElementById('modal-eyebrow');
+    const mTitle    = document.getElementById('modal-title');
+    const mDesc     = document.getElementById('modal-desc');
+    const mList     = document.getElementById('modal-list');
+
+    function openModal(key) {
+      const d = modalData[key];
+      if (!d) return;
+      mIcon.innerHTML    = d.icon;
+      mEyebrow.textContent = d.eyebrow;
+      mTitle.textContent = d.title;
+      mDesc.textContent  = d.desc;
+      mList.innerHTML    = d.services.map(s => `<li>${s}</li>`).join('');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.industria-card[data-modal]').forEach(card => {
+      card.addEventListener('click', () => openModal(card.dataset.modal));
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    document.querySelector('.imodal-cta').addEventListener('click', closeModal);
   </script>
 </body>
 </html>
