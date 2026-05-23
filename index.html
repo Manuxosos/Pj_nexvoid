@@ -637,6 +637,36 @@
     input:focus, textarea:focus, select:focus { border-color: rgba(26,110,245,0.5); }
     textarea { resize: vertical; min-height: 130px; }
     input::placeholder, textarea::placeholder { color: #3e4555; }
+
+    /* ===== FORM VALIDATION ===== */
+    .field-error {
+      border-color: #e05252 !important;
+    }
+    .field-ok {
+      border-color: rgba(26,110,245,0.4) !important;
+    }
+    .form-error-msg {
+      font-size: 0.75rem;
+      color: #e05252;
+      margin-top: -8px;
+      margin-bottom: 4px;
+      display: none;
+    }
+    .form-error-msg.visible { display: block; }
+    .form-success-banner {
+      display: none;
+      padding: 16px 20px;
+      background: rgba(26,110,245,0.1);
+      border: 1px solid rgba(26,110,245,0.35);
+      border-radius: 8px;
+      color: #a8c8ff;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+    .form-success-banner.visible { display: block; }
+    .honeypot-field { display: none !important; visibility: hidden !important; }
+
     .form-submit {
       padding: 14px 32px;
       background: var(--accent);
@@ -1881,14 +1911,25 @@
         <!-- Formulario -->
         <div class="reveal-right">
           <div class="sumate-form-title">Envíe su postulación</div>
-          <form id="form-sumate">
+          <form id="form-sumate" novalidate autocomplete="off">
+            <!-- Honeypot anti-bot -->
+            <input type="text" name="website" tabindex="-1" aria-hidden="true" class="honeypot-field" />
             <div class="form-row">
-              <input type="text" placeholder="Nombre completo" required />
-              <input type="email" placeholder="Correo electrónico" required />
+              <div>
+                <input type="text" id="s-nombre" placeholder="Nombre completo" required maxlength="100" autocomplete="name" />
+                <div class="form-error-msg" id="err-s-nombre">Ingrese su nombre completo.</div>
+              </div>
+              <div>
+                <input type="email" id="s-email" placeholder="Correo electrónico" required maxlength="150" autocomplete="email" />
+                <div class="form-error-msg" id="err-s-email">Ingrese un correo electrónico válido.</div>
+              </div>
             </div>
             <div class="form-row">
-              <input type="tel" placeholder="Teléfono de contacto" />
-              <select>
+              <div>
+                <input type="tel" id="s-tel" placeholder="Teléfono de contacto" maxlength="30" autocomplete="tel" />
+                <div class="form-error-msg" id="err-s-tel">Formato inválido. Ej: +54 11 1234-5678</div>
+              </div>
+              <select id="s-area">
                 <option value="" disabled selected>Área de interés</option>
                 <option>Operaciones y BPO</option>
                 <option>Atención al Cliente / Contact Center</option>
@@ -1900,8 +1941,14 @@
                 <option>Otra área</option>
               </select>
             </div>
-            <input type="url" placeholder="Enlace a CV, LinkedIn o portfolio (opcional)" />
-            <textarea placeholder="Cuéntenos sobre su experiencia y motivación para unirse a SYNTRA" style="min-height:140px"></textarea>
+            <div>
+              <input type="url" id="s-cv" placeholder="Enlace a CV, LinkedIn o portfolio (opcional)" maxlength="500" />
+              <div class="form-error-msg" id="err-s-cv">El enlace debe comenzar con https://</div>
+            </div>
+            <textarea id="s-mensaje" placeholder="Cuéntenos sobre su experiencia y motivación para unirse a SYNTRA" style="min-height:140px" maxlength="2000"></textarea>
+            <div class="form-success-banner" id="ok-sumate">
+              Postulación recibida. Revisaremos su perfil y nos comunicaremos con usted en caso de haber una oportunidad disponible.
+            </div>
             <button type="submit" class="form-submit">Enviar postulación</button>
           </form>
         </div>
@@ -1963,16 +2010,29 @@
             </div>
           </div>
         </div>
-        <form class="reveal-right">
+        <form class="reveal-right" id="form-contacto" novalidate autocomplete="off">
+          <!-- Honeypot anti-bot -->
+          <input type="text" name="website" tabindex="-1" aria-hidden="true" class="honeypot-field" />
           <div class="form-row">
-            <input type="text" placeholder="Nombre completo" required />
-            <input type="text" placeholder="Empresa" />
+            <div>
+              <input type="text" id="c-nombre" placeholder="Nombre completo" required maxlength="100" autocomplete="name" />
+              <div class="form-error-msg" id="err-c-nombre">Ingrese su nombre completo.</div>
+            </div>
+            <div>
+              <input type="text" id="c-empresa" placeholder="Empresa" maxlength="100" autocomplete="organization" />
+            </div>
           </div>
           <div class="form-row">
-            <input type="email" placeholder="Correo electrónico" required />
-            <input type="tel" placeholder="Teléfono" />
+            <div>
+              <input type="email" id="c-email" placeholder="Correo electrónico" required maxlength="150" autocomplete="email" />
+              <div class="form-error-msg" id="err-c-email">Ingrese un correo electrónico válido.</div>
+            </div>
+            <div>
+              <input type="tel" id="c-tel" placeholder="Teléfono" maxlength="30" autocomplete="tel" />
+              <div class="form-error-msg" id="err-c-tel">Formato inválido. Ej: +54 11 1234-5678</div>
+            </div>
           </div>
-          <select>
+          <select id="c-servicio">
             <option value="" disabled selected>Servicio de interés</option>
             <option>BPO / Outsourcing de Procesos</option>
             <option>Atención al Cliente</option>
@@ -1982,7 +2042,13 @@
             <option>Consultoría IT</option>
             <option>Otro</option>
           </select>
-          <textarea placeholder="Describa su proyecto o consulta"></textarea>
+          <div>
+            <textarea id="c-mensaje" placeholder="Describa su proyecto o consulta" maxlength="2000"></textarea>
+            <div class="form-error-msg" id="err-c-mensaje">El mensaje no puede superar los 2000 caracteres.</div>
+          </div>
+          <div class="form-success-banner" id="ok-contacto">
+            Mensaje recibido. Nos comunicaremos con usted dentro de las próximas 24 horas hábiles.
+          </div>
           <button type="submit" class="form-submit">Enviar consulta</button>
         </form>
       </div>
@@ -2217,6 +2283,109 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     document.querySelector('.imodal-cta').addEventListener('click', closeModal);
+
+    // ===== FORM VALIDATION & SECURITY =====
+    const EMAIL_RE  = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{2,}$/;
+    const TEL_RE    = /^[\+\d\s\-\(\)]{6,30}$/;
+    const URL_RE    = /^https:\/\/.{3,}/;
+
+    function sanitize(str) {
+      return str.replace(/[<>"'`]/g, c => ({'<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]));
+    }
+
+    function setError(inputEl, msgEl, show) {
+      inputEl.classList.toggle('field-error', show);
+      inputEl.classList.toggle('field-ok', !show && inputEl.value.trim() !== '');
+      msgEl && msgEl.classList.toggle('visible', show);
+    }
+
+    function validateContacto(e) {
+      e.preventDefault();
+      // Honeypot check
+      const hp = document.querySelector('#form-contacto [name="website"]');
+      if (hp && hp.value !== '') return;
+
+      const nombre  = document.getElementById('c-nombre');
+      const email   = document.getElementById('c-email');
+      const tel     = document.getElementById('c-tel');
+      const mensaje = document.getElementById('c-mensaje');
+
+      let valid = true;
+
+      const nVal = sanitize(nombre.value.trim());
+      const ok_n = nVal.length >= 2 && nVal.length <= 100;
+      setError(nombre, document.getElementById('err-c-nombre'), !ok_n);
+      if (!ok_n) valid = false;
+
+      const eVal = email.value.trim();
+      const ok_e = EMAIL_RE.test(eVal) && eVal.length <= 150;
+      setError(email, document.getElementById('err-c-email'), !ok_e);
+      if (!ok_e) valid = false;
+
+      if (tel.value.trim() !== '') {
+        const ok_t = TEL_RE.test(tel.value.trim());
+        setError(tel, document.getElementById('err-c-tel'), !ok_t);
+        if (!ok_t) valid = false;
+      }
+
+      if (mensaje.value.length > 2000) {
+        setError(mensaje, document.getElementById('err-c-mensaje'), true);
+        valid = false;
+      }
+
+      if (valid) {
+        document.getElementById('ok-contacto').classList.add('visible');
+        e.target.querySelector('.form-submit').disabled = true;
+        e.target.querySelector('.form-submit').textContent = 'Enviado';
+        // Aquí se conectará Web3Forms
+      }
+    }
+
+    function validateSumate(e) {
+      e.preventDefault();
+      // Honeypot check
+      const hp = document.querySelector('#form-sumate [name="website"]');
+      if (hp && hp.value !== '') return;
+
+      const nombre  = document.getElementById('s-nombre');
+      const email   = document.getElementById('s-email');
+      const tel     = document.getElementById('s-tel');
+      const cv      = document.getElementById('s-cv');
+
+      let valid = true;
+
+      const nVal = sanitize(nombre.value.trim());
+      const ok_n = nVal.length >= 2 && nVal.length <= 100;
+      setError(nombre, document.getElementById('err-s-nombre'), !ok_n);
+      if (!ok_n) valid = false;
+
+      const eVal = email.value.trim();
+      const ok_e = EMAIL_RE.test(eVal) && eVal.length <= 150;
+      setError(email, document.getElementById('err-s-email'), !ok_e);
+      if (!ok_e) valid = false;
+
+      if (tel.value.trim() !== '') {
+        const ok_t = TEL_RE.test(tel.value.trim());
+        setError(tel, document.getElementById('err-s-tel'), !ok_t);
+        if (!ok_t) valid = false;
+      }
+
+      if (cv.value.trim() !== '') {
+        const ok_u = URL_RE.test(cv.value.trim());
+        setError(cv, document.getElementById('err-s-cv'), !ok_u);
+        if (!ok_u) valid = false;
+      }
+
+      if (valid) {
+        document.getElementById('ok-sumate').classList.add('visible');
+        e.target.querySelector('.form-submit').disabled = true;
+        e.target.querySelector('.form-submit').textContent = 'Enviado';
+        // Aquí se conectará Web3Forms
+      }
+    }
+
+    document.getElementById('form-contacto').addEventListener('submit', validateContacto);
+    document.getElementById('form-sumate').addEventListener('submit', validateSumate);
   </script>
 </body>
 </html>
