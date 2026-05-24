@@ -1218,6 +1218,133 @@
       .sumate-grid { grid-template-columns: 1fr; gap: 48px; }
     }
 
+    /* ===== POLITICA DE PRIVACIDAD MODAL ===== */
+    .privacy-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(8px);
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .privacy-modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .privacy-modal-box {
+      background: #0f1114;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 48px;
+      max-width: 700px;
+      width: 100%;
+      position: relative;
+      max-height: 88vh;
+      overflow-y: auto;
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.35s ease;
+    }
+    .privacy-modal-overlay.open .privacy-modal-box {
+      transform: translateY(0) scale(1);
+    }
+    .privacy-modal-box h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .privacy-modal-box .pm-date {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .privacy-modal-box h3 {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 28px 0 10px;
+    }
+    .privacy-modal-box p, .privacy-modal-box li {
+      font-size: 0.88rem;
+      color: #8a94a6;
+      line-height: 1.8;
+    }
+    .privacy-modal-box ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .privacy-modal-box li { margin-bottom: 6px; }
+    .privacy-modal-box a { color: var(--accent); }
+    .pm-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: #aaa;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1;
+    }
+    .pm-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* ===== CONSENTIMIENTO FORMULARIO ===== */
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(26,110,245,0.05);
+      border: 1px solid rgba(26,110,245,0.15);
+      border-radius: 8px;
+    }
+    .consent-row input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      min-width: 17px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      padding: 0;
+      background: transparent;
+      border: 1px solid #3e4555;
+      border-radius: 3px;
+    }
+    .consent-row label {
+      font-size: 0.78rem;
+      color: #6a7485;
+      line-height: 1.6;
+      cursor: pointer;
+    }
+    .consent-row label a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .consent-error {
+      font-size: 0.75rem;
+      color: #e05252;
+      margin-top: -6px;
+      display: none;
+    }
+    .consent-error.visible { display: block; }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .nosotros-grid, .vision-grid, .contact-grid, .mv-grid { grid-template-columns: 1fr; }
@@ -1958,6 +2085,14 @@
               <div class="form-error-msg" id="err-s-cv">El enlace debe comenzar con https://</div>
             </div>
             <textarea id="s-mensaje" placeholder="Cuéntenos sobre su experiencia y motivación para unirse a SYNTRA" style="min-height:140px" maxlength="2000"></textarea>
+            <div class="consent-row">
+              <input type="checkbox" id="s-consent" />
+              <label for="s-consent">
+                Acepto que SYNTRA procese mis datos personales para evaluar mi postulación, de acuerdo con la
+                <a href="#" class="open-privacy">Política de Privacidad</a>.
+              </label>
+            </div>
+            <div class="consent-error" id="err-s-consent">Debe aceptar la política de privacidad para continuar.</div>
             <div class="form-success-banner" id="ok-sumate">
               Postulación recibida. Revisaremos su perfil y nos comunicaremos con usted en caso de haber una oportunidad disponible.
             </div>
@@ -2058,6 +2193,14 @@
             <textarea id="c-mensaje" placeholder="Describa su proyecto o consulta" maxlength="2000"></textarea>
             <div class="form-error-msg" id="err-c-mensaje">El mensaje no puede superar los 2000 caracteres.</div>
           </div>
+          <div class="consent-row">
+            <input type="checkbox" id="c-consent" />
+            <label for="c-consent">
+              Acepto que SYNTRA procese mis datos personales para responder a mi consulta, de acuerdo con la
+              <a href="#" class="open-privacy">Política de Privacidad</a>.
+            </label>
+          </div>
+          <div class="consent-error" id="err-c-consent">Debe aceptar la política de privacidad para continuar.</div>
           <div class="form-success-banner" id="ok-contacto">
             Mensaje recibido. Nos comunicaremos con usted dentro de las próximas 24 horas hábiles.
           </div>
@@ -2066,6 +2209,51 @@
       </div>
     </div>
   </section>
+
+  <!-- MODAL POLITICA DE PRIVACIDAD -->
+  <div id="privacy-modal" class="privacy-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pm-title">
+    <div class="privacy-modal-box">
+      <button class="pm-close" id="pm-close" aria-label="Cerrar">&times;</button>
+      <h2 id="pm-title">Política de Privacidad</h2>
+      <p class="pm-date">Última actualización: Mayo 2025</p>
+
+      <h3>1. Responsable del tratamiento</h3>
+      <p>SYNTRA es responsable del tratamiento de los datos personales recopilados a través de este sitio web. Contacto: <a href="mailto:info@syntraconnect.com">info@syntraconnect.com</a>.</p>
+
+      <h3>2. Datos que recopilamos</h3>
+      <p>A través de los formularios de este sitio recopilamos únicamente los datos que usted ingresa voluntariamente:</p>
+      <ul>
+        <li>Nombre completo</li>
+        <li>Correo electrónico</li>
+        <li>Teléfono de contacto (opcional)</li>
+        <li>Empresa (opcional, formulario de contacto)</li>
+        <li>Enlace a CV o perfil profesional (opcional, formulario de postulación)</li>
+        <li>Contenido del mensaje o descripción de experiencia</li>
+      </ul>
+
+      <h3>3. Finalidad del tratamiento</h3>
+      <ul>
+        <li><strong>Formulario de contacto:</strong> responder consultas comerciales y presentar propuestas de servicios.</li>
+        <li><strong>Formulario de postulación:</strong> evaluar perfiles para posiciones laborales dentro de SYNTRA.</li>
+      </ul>
+      <p>Los datos no serán utilizados para ninguna finalidad distinta a la indicada sin su consentimiento previo.</p>
+
+      <h3>4. Destinatarios de los datos</h3>
+      <p>Los datos enviados a través de los formularios son transmitidos mediante el servicio Web3Forms (web3forms.com) hacia el correo electrónico de SYNTRA. Web3Forms actúa como encargado del tratamiento y no almacena los mensajes de forma permanente. No se ceden datos a terceros con fines comerciales.</p>
+
+      <h3>5. Plazo de conservación</h3>
+      <p>Los datos serán conservados durante el tiempo necesario para gestionar la consulta o el proceso de selección, y posteriormente por el plazo legal que corresponda según la normativa vigente en Argentina.</p>
+
+      <h3>6. Base legal</h3>
+      <p>El tratamiento de sus datos se basa en el consentimiento que usted otorga al enviar el formulario, conforme a la Ley N° 25.326 de Protección de los Datos Personales de la República Argentina.</p>
+
+      <h3>7. Sus derechos</h3>
+      <p>En todo momento puede ejercer sus derechos de acceso, rectificación, supresión y oposición al tratamiento de sus datos personales escribiendo a <a href="mailto:info@syntraconnect.com">info@syntraconnect.com</a>. SYNTRA responderá su solicitud dentro de los plazos establecidos por la ley.</p>
+
+      <h3>8. Seguridad</h3>
+      <p>Este sitio utiliza conexión HTTPS cifrada. Los formularios incluyen medidas técnicas para prevenir envíos automatizados y el procesamiento de datos maliciosos.</p>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -2106,8 +2294,12 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2023 SYNTRA. Todos los derechos reservados.</p>
-        <p>Diseño y desarrollo: SYNTRA &mdash; Sitio desarrollado en 2023</p>
+        <p>&copy; 2025 SYNTRA. Todos los derechos reservados.</p>
+        <p>
+          <a href="#" class="open-privacy" style="color:#3e4555;font-size:0.78rem;text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;" onmouseover="this.style.color='#8a94a6'" onmouseout="this.style.color='#3e4555'">Política de Privacidad</a>
+          &nbsp;&mdash;&nbsp;
+          <span style="color:#2e3545;font-size:0.78rem;">Diseño y desarrollo: SYNTRA</span>
+        </p>
       </div>
     </div>
   </footer>
@@ -2345,6 +2537,11 @@
         valid = false;
       }
 
+      const consent = document.getElementById('c-consent');
+      const ok_con = consent.checked;
+      document.getElementById('err-c-consent').classList.toggle('visible', !ok_con);
+      if (!ok_con) valid = false;
+
       if (valid) {
         document.getElementById('ok-contacto').classList.add('visible');
         e.target.querySelector('.form-submit').disabled = true;
@@ -2388,6 +2585,11 @@
         if (!ok_u) valid = false;
       }
 
+      const consent = document.getElementById('s-consent');
+      const ok_con = consent.checked;
+      document.getElementById('err-s-consent').classList.toggle('visible', !ok_con);
+      if (!ok_con) valid = false;
+
       if (valid) {
         document.getElementById('ok-sumate').classList.add('visible');
         e.target.querySelector('.form-submit').disabled = true;
@@ -2395,6 +2597,27 @@
         // Aquí se conectará Web3Forms
       }
     }
+
+    // ===== MODAL PRIVACIDAD =====
+    const privacyOverlay = document.getElementById('privacy-modal');
+    const pmClose        = document.getElementById('pm-close');
+
+    function openPrivacy(e) {
+      e && e.preventDefault();
+      privacyOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePrivacy() {
+      privacyOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.open-privacy').forEach(el => {
+      el.addEventListener('click', openPrivacy);
+    });
+    pmClose.addEventListener('click', closePrivacy);
+    privacyOverlay.addEventListener('click', e => { if (e.target === privacyOverlay) closePrivacy(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePrivacy(); });
 
     document.getElementById('form-contacto').addEventListener('submit', validateContacto);
     document.getElementById('form-sumate').addEventListener('submit', validateSumate);
