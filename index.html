@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>SYNTRA — Conectamos Personas. Potenciamos Negocios.</title>
   <link rel="canonical" href="https://syntraconnect.com/" />
@@ -2357,7 +2357,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 SYNTRA. Todos los derechos reservados.</p>
+        <p>&copy; 2026 SYNTRA. Todos los derechos reservados.</p>
         <p>
           <a href="#" class="open-privacy" style="color:#3e4555;font-size:0.78rem;text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;" onmouseover="this.style.color='#8a94a6'" onmouseout="this.style.color='#3e4555'">Política de Privacidad</a>
           &nbsp;&mdash;&nbsp;
@@ -2369,9 +2369,11 @@
 
   <script>
     // ===== ANTI-CLICKJACKING =====
-    if (window.self !== window.top) {
-      window.top.location = window.self.location;
-    }
+    try {
+      if (window.self !== window.top) {
+        window.top.location = window.self.location;
+      }
+    } catch (e) { /* cross-origin frame: navegador ya bloquea el acceso */ }
 
     // ===== NAV SCROLL =====
     const navbar = document.getElementById('navbar');
@@ -2401,10 +2403,7 @@
       link.addEventListener('click', () => toggleMenu(false));
     });
 
-    // Close mobile menu on ESC
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && hamburger.classList.contains('open')) toggleMenu(false);
-    });
+    // Close mobile menu on ESC — handler unificado al final del script
 
     // ===== HERO IMAGE LOAD =====
     const heroImg = document.getElementById('heroImg');
@@ -2431,13 +2430,14 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          const target = parseInt(el.dataset.target);
-          const suffix = el.querySelector('span').outerHTML;
+          const target = parseInt(el.dataset.target, 10);
+          const suffixNode = el.querySelector('span').cloneNode(true);
           let current = 0;
           const step = Math.max(1, Math.floor(target / 50));
           const timer = setInterval(() => {
             current = Math.min(current + step, target);
-            el.innerHTML = current + suffix;
+            el.textContent = current;
+            el.appendChild(suffixNode);
             if (current >= target) clearInterval(timer);
           }, 28);
           counterObserver.unobserve(el);
@@ -2527,11 +2527,16 @@
     function openModal(key) {
       const d = modalData[key];
       if (!d) return;
-      mIcon.innerHTML    = d.icon;
+      mIcon.innerHTML      = d.icon;
       mEyebrow.textContent = d.eyebrow;
-      mTitle.textContent = d.title;
-      mDesc.textContent  = d.desc;
-      mList.innerHTML    = d.services.map(s => `<li>${s}</li>`).join('');
+      mTitle.textContent   = d.title;
+      mDesc.textContent    = d.desc;
+      mList.textContent    = '';
+      d.services.forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = s;
+        mList.appendChild(li);
+      });
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -2547,7 +2552,6 @@
 
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     document.querySelector('.imodal-cta').addEventListener('click', closeModal);
 
@@ -2706,10 +2710,17 @@
     });
     pmClose.addEventListener('click', closePrivacy);
     privacyOverlay.addEventListener('click', e => { if (e.target === privacyOverlay) closePrivacy(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePrivacy(); });
 
     document.getElementById('form-contacto').addEventListener('submit', validateContacto);
     document.getElementById('form-sumate').addEventListener('submit', validateSumate);
+
+    // ===== ESCAPE KEY — handler unificado =====
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (hamburger.classList.contains('open'))    toggleMenu(false);
+      if (overlay.classList.contains('open'))      closeModal();
+      if (privacyOverlay.classList.contains('open')) closePrivacy();
+    });
   </script>
 </body>
 </html>
